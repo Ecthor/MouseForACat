@@ -66,7 +66,6 @@ void loop() {
   //-------IR
   Serial.println("Distance IR voltage:");
   int irval = analogRead(5);
-  Serial.println((float)irval / 615) * 1024;
   Serial.println(irval * (5.0 / 1023.0));
 
   delay(1000);

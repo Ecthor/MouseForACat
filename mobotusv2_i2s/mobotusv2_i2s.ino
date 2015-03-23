@@ -13,10 +13,11 @@ void distance(byte *a, byte *b){
   Wire.write(0x10); 
   Wire.write(0x02);
   Wire.endTransmission();
-  delay(500);
+  delay(50);
   Wire.beginTransmission(sonar);  
   Wire.write(0x20);
   Wire.endTransmission();
+  delay(50);
   Wire.requestFrom(sonar, 2);
   *a = Wire.read();
   *b = Wire.read();
@@ -26,6 +27,7 @@ byte testing(){
   Wire.beginTransmission(sonar);  
   Wire.write(0x40);
   Wire.endTransmission();
+  delay(50);
   Wire.requestFrom(sonar, 1);
   char a;
   a = Wire.read();
@@ -55,13 +57,17 @@ void loop() {
   distance(&a, &b);
   int dist_val;
   dist_val = a+256*b;
-  Serial.println(dist_val);
-  Serial.println(int(&a), BIN);
-  Serial.println(int(&b), BIN);
+  if (dist_val<=2500){
+    Serial.println("In range");
+    //Serial.println(dist_val);
+    Serial.println(float(dist_val)/10.0); // distance in cm
+  }
+  else
+    Serial.println("Out of range");
   
   
-  Serial.println("Sonar test:");
-  Serial.println(testing(), BIN);
+  Serial.println("Sonar test (should be 123):");
+  Serial.println(testing());
 
   //-------IR
   Serial.println("Distance IR voltage:");
